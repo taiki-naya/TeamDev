@@ -1,0 +1,2 @@
+class AgendaMailer < ApplicationMailer
+end
