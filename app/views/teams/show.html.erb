@@ -41,7 +41,11 @@
                     <tr>
                       <td><%= image_tag 'default.jpg', size: '40x40' %></td>
                       <td><%= assign.user.email %></td>
-                      <td><%= link_to I18n.t('views.button.delete'), team_assign_path(@team, assign), method: :delete, class: 'btn btn-sm btn-danger' %></td>
+                      <td>
+                        <% if (@team.owner_id == current_user.id) || (assign.user_id == current_user.id) %>
+                          <%= link_to I18n.t('views.button.delete'), team_assign_path(@team, assign), method: :delete, class: 'btn btn-sm btn-danger' %>
+                        <% end %>
+                      </td>
                     </tr>
                   <% end %>
                 </tbody>
