@@ -16,7 +16,6 @@ class TeamsController < ApplicationController
   end
 
   def edit
-    binding.pry
     unless @team.owner_id == current_user.id
       redirect_to team_url, notice: I18n.t(%(You don't have an authority to edit this team))
     end
