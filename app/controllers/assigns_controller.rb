@@ -30,6 +30,7 @@ class AssignsController < ApplicationController
     team = find_team(params[:team_id])
     assign = Assign.find(params[:id])
     team.update_attribute(:owner_id, assign.user_id)
+    AssignMailer.assign_mail(assign.user.email, assign.user.password).deliver
     redirect_to team_url(params[:team_id]), notice: "#{team.name}'s Owner was successfully changed"
   end
 
