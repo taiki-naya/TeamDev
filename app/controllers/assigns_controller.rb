@@ -26,6 +26,14 @@ class AssignsController < ApplicationController
     end
   end
 
+  def owner_authority
+    team = find_team(params[:team_id])
+    assign = Assign.find(params[:id])
+    team.update_attribute(:owner_id, assign.user_id)
+    redirect_to team_url(params[:team_id]), notice: "#{team.name}'s Owner was successfully changed"
+  end
+
+
   private
 
   def assign_params
