@@ -15,7 +15,11 @@ class TeamsController < ApplicationController
     @team = Team.new
   end
 
-  def edit; end
+  def edit
+    unless @team.owner_id == current_user.id
+      redirect_to team_url, notice: I18n.t(%(You don't have an authority to edit this team))
+    end
+  end
 
   def create
     @team = Team.new(team_params)

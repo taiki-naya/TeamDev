@@ -15,13 +15,19 @@ class AssignsController < ApplicationController
   end
 
   def destroy
+    team = find_team(params[:team_id])
     assign = Assign.find(params[:id])
-    destroy_message = assign_destroy(assign, assign.user)
+    if (team.owner_id == current_user.id) || (assign.user_id == current_user.id)
+      destroy_message = assign_destroy(assign, assign.user)
 
-    redirect_to team_url(params[:team_id]), notice: destroy_message
+      redirect_to team_url(params[:team_id]), notice: destroy_message
+    else
+      redirect_to team_url(params[:team_id]), notice: I18n.t(%(You don't have an authority to delete other team members))
+    end
   end
 
   private
+
   def assign_params
     params[:email]
   end
@@ -62,7 +68,7 @@ class AssignsController < ApplicationController
     change_keep_team(assigned_user, another_team) if assigned_user.keep_team_id == assign.team_id
   end
 
-  def find_team(team_id)
+  def find_team(*)
     Team.friendly.find(params[:team_id])
   end
 end
